@@ -156,7 +156,7 @@ class HuggingFaceFileIO(ABC):
         repo_id: str,
         *,
         pack_nemo_file: bool = True,
-        model_card: Optional['ModelCard'] | object | str = None,
+        model_card: Union[Optional['ModelCard'], object, str] = None,
         commit_message: str = "Push model using huggingface_hub.",
         private: bool = False,
         api_endpoint: Optional[str] = None,
