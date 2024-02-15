@@ -358,7 +358,7 @@ class _EncDecBaseModel(ASRModel, ExportableEncDecModel, TranscriptionMixin):
         audio: List[str],
         batch_size: int = 4,
         logprobs=None,
-        override_config: Optional[ClassificationInferConfig] | Optional[RegressionInferConfig] = None,
+        override_config: Union[Optional[ClassificationInferConfig], Optional[RegressionInferConfig]] = None,
     ) -> TranscriptionReturnType:
         """
         Generate class labels for provided audio files. Use this method for debugging and prototyping.

@@ -16,7 +16,7 @@ import logging
 import warnings
 from itertools import repeat
 from pathlib import Path
-from typing import Sequence, Tuple
+from typing import Sequence, Tuple, Union, Optional
 
 from lhotse import CutSet
 
@@ -184,7 +184,7 @@ def read_nemo_manifest(config, is_tarred: bool) -> CutSet:
     return cuts
 
 
-def mux(*cutsets: CutSet, weights: list[int | float], max_open_streams: int | None = None) -> CutSet:
+def mux(*cutsets: CutSet, weights: list[Union[int, float]], max_open_streams: Optional[int] = None) -> CutSet:
     """
     Helper function to call the right multiplexing method flavour in lhotse.
     The result is always an infinitely iterable ``CutSet``, but depending on whether ``max_open_streams`` is set,

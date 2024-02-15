@@ -18,7 +18,7 @@ import secrets
 import tarfile
 from io import BytesIO
 from pathlib import Path
-from typing import Generator, Iterable, List
+from typing import Generator, Iterable, List, Union, Optional
 
 import soundfile
 from cytoolz import groupby
