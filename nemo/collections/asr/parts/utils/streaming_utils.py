@@ -479,7 +479,7 @@ class AudioFeatureIterator(IterableDataset):
         self._feature_frame_len = frame_len / timestep_duration
         audio_signal = torch.from_numpy(self._samples).unsqueeze_(0).to(device)
         audio_signal_len = torch.Tensor([self._samples.shape[0]]).to(device)
-        self._features, self._features_len = preprocessor(input_signal=audio_signal, length=audio_signal_len,)
+        self._features, _ = preprocessor(input_signal=audio_signal, length=audio_signal_len,)
         self._features = self._features.squeeze()
 
     def __iter__(self):
@@ -489,16 +489,16 @@ class AudioFeatureIterator(IterableDataset):
         if not self.output:
             raise StopIteration
         last = int(self._start + self._feature_frame_len)
-        if last <= self._features_len[0]:
+        if last <= self._features.shape[1]:
             frame = self._features[:, self._start : last].cpu()
             self._start = last
         else:
-            samp_len = self._features_len[0] - self._start
+            samp_len = self._features.shape[1] - self._start
             if not self.pad_to_frame_len:
                 frame = np.zeros([self._features.shape[0], samp_len], dtype='float32')
             else:
                 frame = np.zeros([self._features.shape[0], int(self._feature_frame_len)], dtype='float32')
-            frame[:, 0:samp_len] = self._features[:, self._start : self._features_len[0]].cpu()
+            frame[:, 0:samp_len] = self._features[:, self._start : self._features.shape[1]].cpu()
             self.output = False
         self.count += 1
         return frame
